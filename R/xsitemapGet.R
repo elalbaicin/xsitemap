@@ -62,6 +62,12 @@ xsitemapGet <- function(urltocheck, user_agent) {
 
 
     xml_data <- xmlToList(xml_doc)
+    
+    if(!is.list(xml_data)) {
+      warning("sitemap index is empty")
+      return(NULL)
+    }
+    
     nb_children <- length(xml_data)
     
 
