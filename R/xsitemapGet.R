@@ -101,19 +101,22 @@ xsitemapGet <- function(urltocheck, user_agent) {
         if (!is.null(individual_sitemap)) {
           message(paste0("\n", i, " >>> ", individual_sitemap))
           new_urls <- xsitemapGet(individual_sitemap)
-          parsed_urls <- urltools::url_parse(individual_sitemap)
-
-          if(!is.na(parsed_urls$parameter)){
-            new_urls$origin <-
-              paste0(parsed_urls$path,"?",parsed_urls$parameter)
-          }else{
-            new_urls$origin <-
+          if(!is.null(new_urls)) {
+            
+            parsed_urls <- urltools::url_parse(individual_sitemap)
+            
+            if(!is.na(parsed_urls$parameter)){
+              new_urls$origin <-
+                paste0(parsed_urls$path,"?",parsed_urls$parameter)
+            }else{
+              new_urls$origin <-
               parsed_urls$path
+            }
 
-          }
+            urls <- rbind(urls, new_urls)
+          
+          }          
 
-
-          urls <- rbind(urls, new_urls)
         }
       }
       rownames(urls) <- NULL
